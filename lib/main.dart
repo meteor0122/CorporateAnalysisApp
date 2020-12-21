@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/components/add_company.dart';
 import 'package:flutter_app/models/company.dart';
 import 'package:flutter_app/repositories/company_bloc.dart';
 import 'package:provider/provider.dart';
 import 'components/graph_view.dart';
 import 'components/list_view.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 void main() {
   runApp(MyApp());
@@ -22,6 +20,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -31,14 +30,13 @@ class _HomePageState extends State<HomePage> {
   List<Company> companyList = [];
 
   final _pageWidgets = [
-    AddCompany(),
     CompanyListView(),
-    GraphView.withSampleData(),
+    GraphView(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -47,9 +45,9 @@ class _HomePageState extends State<HomePage> {
       home: Provider<CompanyBloc>(
         create: (context) => new CompanyBloc(),
         dispose: (context, bloc) => bloc.dispose(),
-        child: Scaffold (
+        child: Scaffold(
           appBar: AppBar(
-            title: Text("Title"),
+            title: const Text("企業分析"),
           ),
           body: IndexedStack(
             index: _currentIndex,
@@ -57,9 +55,8 @@ class _HomePageState extends State<HomePage> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: <BottomNavigationBarItem> [
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: '1'),
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: '2'),
-              BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: '3'),
+              const BottomNavigationBarItem(icon: const Icon(Icons.list), label: 'リスト'),
+              const BottomNavigationBarItem(icon: const Icon(Icons.bar_chart), label: 'グラフ'),
             ],
             currentIndex: _currentIndex,
             onTap: _onItemTapped,
@@ -70,46 +67,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return  MaterialApp(
-  //       title: 'Flutter Demo',
-  //       theme: ThemeData(
-  //         primarySwatch: Colors.blue,
-  //         visualDensity: VisualDensity.adaptivePlatformDensity,
-  //       ),
-  //       home: Provider<CompanyBloc>(
-  //         create: (context) => new CompanyBloc(),
-  //         dispose: (context, bloc) => bloc.dispose(),
-  //         child: Scaffold (
-  //           appBar: AppBar(
-  //             title: Text("Title"),
-  //           ),
-  //           body: IndexedStack(
-  //             index: _currentIndex,
-  //             children: _pageWidgets,
-  //           ),
-  //           bottomNavigationBar: BottomNavigationBar(
-  //             items: <BottomNavigationBarItem> [
-  //               BottomNavigationBarItem(icon: Icon(Icons.add), label: '1'),
-  //               BottomNavigationBarItem(icon: Icon(Icons.home), label: '2'),
-  //               BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: '3'),
-  //             ],
-  //             currentIndex: _currentIndex,
-  //             onTap: _onItemTapped,
-  //             type: BottomNavigationBarType.fixed,
-  //           ),
-  //         ),
-  //       ),
-  //   );
-  // }
+  void _onItemTapped(int index) => setState(() => _currentIndex = index);
 
-  void _onItemTapped(int index) => setState(() => _currentIndex = index );
-
-  void updateData() {
-    final _bloc = Provider.of<CompanyBloc>(context, listen: false);
-    setState(() {
-      this.companyList = _bloc.getCompany();
-    });
-  }
 }

@@ -36,7 +36,17 @@ class DBProvider {
             "id TEXT PRIMARY KEY,"
             "companyName TEXT,"
             "currentSales INTEGER,"
-            "previousSales INTEGER"
+            "previousSales INTEGER,"
+            "currentOrdinaryIncome INTEGER,"
+            "previousOrdinaryIncome INTEGER,"
+            "overTime INTEGER,"
+            "paidDay INTEGER,"
+            "averageIncome INTEGER,"
+            "nonCurrentAssets INTEGER,"
+            "netWorth INTEGER,"
+            "otherCapital INTEGER,"
+            "currentAssets INTEGER,"
+            "currentsLiabilities INTEGER"
             ")"
     );
   }
